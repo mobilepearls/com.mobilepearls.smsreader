@@ -1,0 +1,44 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/tts_pref_title" >
+        <Preference
+            android:summary="@string/pref_intent_setup_system_tts_summary"
+            android:title="@string/pref_intent_setup_system_tts_title" >
+            <intent android:action="com.android.settings.TTS_SETTINGS" />
+        </Preference>
+        <Preference
+            android:summary="@string/pref_intent_find_tts_engines_summary"
+            android:title="@string/pref_intent_find_tts_engines_title" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="market://search?q=text to speech engine&amp;c=apps" />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/app_name" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enabled"
+            android:summary="@string/pref_enabled_summary"
+            android:title="@string/pref_enabled_title" />
+        <ListPreference
+            android:id="@+android:id/language_pref"
+            android:defaultValue="en"
+            android:dependency="enabled"
+            android:key="language"
+            android:summary="@string/pref_language_summary"
+            android:title="@string/pref_language_title" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="enabled"
+            android:key="require_headphones"
+            android:summary="@string/pref_require_headphones_summary"
+            android:title="@string/pref_require_headphones_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="enabled"
+            android:key="only_read_sender_name"
+            android:summary="@string/pref_only_read_sender_name_summary"
+            android:title="@string/pref_only_read_sender_name_title" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

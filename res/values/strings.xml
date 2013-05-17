@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SMS Reader</string>
+    <string name="tts_pref_title">Text-To-Speech</string>
+    <string name="tts_no_language_found_title">No supported language found</string>
+    <string name="tts_no_language_found_message">Review your system Text-To-Speech settings</string>
+    <string name="tts_init_failed_title">TTS init failed</string>
+    <string name="tts_init_failed_message">Review your system Text-To-Speech settings</string>
+    <string name="tts_missing_data_title">TTS missing data</string>
+    <string name="tts_for_language_message">For language %1$s</string>
+    <string name="tts_lang_unavailable_title">TTS language unavailable</string>
+    <string name="pref_intent_setup_system_tts_title">TTS Engine</string>
+    <string name="pref_intent_setup_system_tts_summary">Setup the system Text-To-Speech (TTS) engine</string>
+    <string name="pref_intent_find_tts_engines_title">Install a TTS engine</string>
+    <string name="pref_intent_find_tts_engines_summary">Search Google Play for TTS engines</string>
+    <string name="pref_enabled_title">Enable</string>
+    <string name="pref_enabled_summary">If SMS reading should be enabled at all</string>
+    <string name="pref_language_title">Speech language</string>
+    <string name="pref_language_summary">Specify language that voice should be used</string>
+    <string name="pref_language_summary_selected">Current language: %1$s</string>
+    <string name="pref_require_headphones_title">Require headphones</string>
+    <string name="pref_require_headphones_summary">Only speak when headphones are plugged in</string>
+    <string name="pref_only_read_sender_name_title">Only read sender name</string>
+    <string name="pref_only_read_sender_name_summary">Do not read the entire message aloud</string>
+
+</resources>
