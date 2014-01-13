@@ -2,7 +2,6 @@ package com.mobilepearls.smsreader;
 
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import android.app.IntentService;
@@ -24,6 +23,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.Engine;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.UtteranceProgressListener;
+import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -58,7 +58,7 @@ public class SmsReaderService extends IntentService {
 	}
 
 	/** Messages maps from numbers to text. */
-	public static void speak(final Context context, final Map<String, String> messages) {
+	public static void speak(final Context context, final SmsMessage[] messages) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
 		if (!prefs.getBoolean("enabled", true))
@@ -153,10 +153,10 @@ public class SmsReaderService extends IntentService {
 			}
 
 			StringBuilder buffer = new StringBuilder();
-			for (Map.Entry<String, String> message : messages.entrySet()) {
-				String number = message.getKey();
+			for (SmsMessage message : messages) {
+				String number = message.getOriginatingAddress();
 				String contactName = getContactNameFromNumber(context, number);
-				String body = message.getValue();
+				String body = message.getMessageBody();
 				String speech = ((contactName == null) ? number : contactName);
 				if (!prefs.getBoolean("only_read_sender_name", false)) {
 					speech += ": " + body;
@@ -241,8 +241,7 @@ public class SmsReaderService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		@SuppressWarnings("unchecked")
-		Map<String, String> messages = (Map<String, String>) intent.getSerializableExtra(MESSAGES_EXTRA);
+		SmsMessage[] messages = (SmsMessage[]) intent.getSerializableExtra(MESSAGES_EXTRA);
 		speak(SmsReaderService.this, messages);
 	}
 
