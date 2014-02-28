@@ -12,8 +12,8 @@ import android.telephony.SmsMessage;
 public class SmsReceiver extends BroadcastReceiver {
 
 	/**
-	 * Called by the system in the main thread when a SMS is received. Parses the message(s) from the intent and
-	 * delegates to {@link SmsReaderService} to do actual work in separate thread.
+	 * Called by the system in the main thread when a SMS is received. Parses the message(s) from the intent and delegates to {@link SmsReaderService} to do
+	 * actual work in separate thread.
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {

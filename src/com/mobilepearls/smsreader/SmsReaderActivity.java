@@ -61,8 +61,7 @@ public class SmsReaderActivity extends PreferenceActivity {
 						@Override
 						public void run() {
 							new AlertDialog.Builder(SmsReaderActivity.this).setIcon(android.R.drawable.ic_dialog_alert)
-									.setTitle(R.string.tts_init_failed_title)
-									.setMessage(R.string.tts_init_failed_message)
+									.setTitle(R.string.tts_init_failed_title).setMessage(R.string.tts_init_failed_message)
 									.setPositiveButton(android.R.string.ok, new OnClickListener() {
 										@Override
 										public void onClick(DialogInterface dialog, int which) {
@@ -101,8 +100,7 @@ public class SmsReaderActivity extends PreferenceActivity {
 					public void run() {
 						if (entries.length == 0) {
 							new AlertDialog.Builder(SmsReaderActivity.this).setIcon(android.R.drawable.ic_dialog_alert)
-									.setTitle(R.string.tts_no_language_found_title)
-									.setMessage(R.string.tts_no_language_found_message)
+									.setTitle(R.string.tts_no_language_found_title).setMessage(R.string.tts_no_language_found_message)
 									.setPositiveButton(android.R.string.ok, new OnClickListener() {
 										@Override
 										public void onClick(DialogInterface dialog, int which) {

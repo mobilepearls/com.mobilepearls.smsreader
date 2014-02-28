@@ -52,8 +52,6 @@ public class SmsReaderService extends IntentService {
 		AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 		// isWiredHeadsetOn() is deprecated due to misleading name, but no better alternative exists.
 		// isBluetoothA2dpOn() does not need to imply a headset, but we assume that here.
-		// Note see https://code.google.com/p/android/issues/detail?id=20765
-		// about MODIFY_AUDIO_SETTINGS permission required for isWiredHeadsetOn() to work on older android versions.
 		return (am.isWiredHeadsetOn() || am.isBluetoothA2dpOn());
 	}
 
@@ -94,14 +92,10 @@ public class SmsReaderService extends IntentService {
 
 			if (!ttsSuccess[0]) {
 				Intent startIntent = new Intent(context, SmsReaderActivity.class);
-				Notification notification = new Notification.Builder(context).setAutoCancel(true)
-						.setTicker(context.getString(R.string.tts_init_failed_title))
-						.setContentTitle(context.getString(R.string.tts_init_failed_title))
-						.setContentText(context.getString(R.string.tts_init_failed_message))
-						.setSmallIcon(R.drawable.ic_stat_ttsfailure)
-						.setContentIntent(PendingIntent.getActivity(context, 0, startIntent, 0)).build();
-				NotificationManager manager = (NotificationManager) context
-						.getSystemService(Context.NOTIFICATION_SERVICE);
+				Notification notification = new Notification.Builder(context).setAutoCancel(true).setTicker(context.getString(R.string.tts_init_failed_title))
+						.setContentTitle(context.getString(R.string.tts_init_failed_title)).setContentText(context.getString(R.string.tts_init_failed_message))
+						.setSmallIcon(R.drawable.ic_stat_ttsfailure).setContentIntent(PendingIntent.getActivity(context, 0, startIntent, 0)).build();
+				NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 				manager.notify(NOTIFICATION_TTS_FAILURE, notification);
 				return;
 			}
@@ -132,19 +126,12 @@ public class SmsReaderService extends IntentService {
 				// Denotes the language is not supported.
 				Intent startIntent = new Intent(context, SmsReaderActivity.class);
 				boolean missingData = setLanguageReturnValue == TextToSpeech.LANG_MISSING_DATA;
-				String title = context.getString(missingData ? R.string.tts_missing_data_title
-						: R.string.tts_lang_unavailable_title);
+				String title = context.getString(missingData ? R.string.tts_missing_data_title : R.string.tts_lang_unavailable_title);
 
-				Notification notification = new Notification.Builder(context)
-						.setAutoCancel(true)
-						.setTicker(title)
-						.setContentTitle(title)
-						.setContentText(
-								context.getString(R.string.tts_for_language_message, speechLocale.getDisplayLanguage()))
-						.setSmallIcon(R.drawable.ic_stat_ttsfailure)
-						.setContentIntent(PendingIntent.getActivity(context, 0, startIntent, 0)).build();
-				NotificationManager manager = (NotificationManager) context
-						.getSystemService(Context.NOTIFICATION_SERVICE);
+				Notification notification = new Notification.Builder(context).setAutoCancel(true).setTicker(title).setContentTitle(title)
+						.setContentText(context.getString(R.string.tts_for_language_message, speechLocale.getDisplayLanguage()))
+						.setSmallIcon(R.drawable.ic_stat_ttsfailure).setContentIntent(PendingIntent.getActivity(context, 0, startIntent, 0)).build();
+				NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 				manager.notify(NOTIFICATION_TTS_FAILURE, notification);
 				return;
 			default:
@@ -202,8 +189,8 @@ public class SmsReaderService extends IntentService {
 	}
 
 	/**
-	 * Created and configured as non-reference counted in {@link #onCreate()}, acquired in
-	 * {@link #onStartCommand(Intent, int, int)} and released in {@link #onDestroy()}.
+	 * Created and configured as non-reference counted in {@link #onCreate()}, acquired in {@link #onStartCommand(Intent, int, int)} and released in
+	 * {@link #onDestroy()}.
 	 */
 	private WakeLock wakeLock;
 
