@@ -2,6 +2,7 @@ package com.mobilepearls.smsreader;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import android.app.IntentService;
@@ -23,7 +24,6 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.Engine;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.speech.tts.UtteranceProgressListener;
-import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -56,7 +56,7 @@ public class SmsReaderService extends IntentService {
 	}
 
 	/** Messages maps from numbers to text. */
-	public static void speak(final Context context, final SmsMessage[] messages) {
+	public static void speak(final Context context, final Map<String, String> messages) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
 		if (!prefs.getBoolean("enabled", true))
@@ -140,10 +140,10 @@ public class SmsReaderService extends IntentService {
 			}
 
 			StringBuilder buffer = new StringBuilder();
-			for (SmsMessage message : messages) {
-				String number = message.getOriginatingAddress();
+			for (Map.Entry<String, String> message : messages.entrySet()) {
+				String number = message.getKey();
 				String contactName = getContactNameFromNumber(context, number);
-				String body = message.getMessageBody();
+				String body = message.getValue();
 				String speech = ((contactName == null) ? number : contactName);
 				if (!prefs.getBoolean("only_read_sender_name", false)) {
 					speech += ": " + body;
@@ -225,10 +225,12 @@ public class SmsReaderService extends IntentService {
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
+	
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		SmsMessage[] messages = (SmsMessage[]) intent.getSerializableExtra(MESSAGES_EXTRA);
+		@SuppressWarnings("unchecked")
+		HashMap<String, String> messages = (HashMap<String, String>) intent.getSerializableExtra(MESSAGES_EXTRA);
 		speak(SmsReaderService.this, messages);
 	}
 

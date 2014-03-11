@@ -1,5 +1,7 @@
 package com.mobilepearls.smsreader;
 
+import java.util.HashMap;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +19,19 @@ public class SmsReceiver extends BroadcastReceiver {
 	 */
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
+		HashMap<String, String> messagesMap = new HashMap<>();
 		SmsMessage[] messages = Intents.getMessagesFromIntent(intent);
+		for (SmsMessage message : messages) {
+			String number = message.getOriginatingAddress();
+			String body = message.getMessageBody();
+			String existingBody = messagesMap.get(number);
+			if (existingBody != null) {
+				body = existingBody + body;
+			}
+			messagesMap.put(number, body);
+		}
 		Intent serviceIntent = new Intent(context, SmsReaderService.class);
-		serviceIntent.putExtra(SmsReaderService.MESSAGES_EXTRA, messages);
+		serviceIntent.putExtra(SmsReaderService.MESSAGES_EXTRA, messagesMap);
 		context.startService(serviceIntent);
 	}
 
