@@ -39,11 +39,8 @@ public class SmsReaderService extends IntentService {
 
 	private static String getContactNameFromNumber(Context context, String number) {
 		Uri contactUri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
-		Cursor c = context.getContentResolver().query(contactUri, DISPLAY_NAME_PROJECTION, null, null, null);
-		try {
+		try (Cursor c = context.getContentResolver().query(contactUri, DISPLAY_NAME_PROJECTION, null, null, null)) {
 			return c.moveToFirst() ? c.getString(c.getColumnIndex(PhoneLookup.DISPLAY_NAME)) : null;
-		} finally {
-			c.close();
 		}
 	}
 
@@ -225,7 +222,6 @@ public class SmsReaderService extends IntentService {
 	public IBinder onBind(Intent intent) {
 		return null;
 	}
-	
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
